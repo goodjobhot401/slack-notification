@@ -15,6 +15,6 @@ jobs:
         env:
           SLACK_COLOR: "good"
           SLACK_ICON_EMOJI: ":ghost:"
-          SLACK_TITLE: "New commit: ${{ github.server_url }}/${{ github.repository}} "
+          SLACK_TITLE: <${{ github.server_url }}/${{ github.repository}}|New commit>
           SLACK_USERNAME: "Github Action 小精靈"
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
