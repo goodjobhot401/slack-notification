@@ -34,6 +34,4 @@ jobs:
           
           SLACK_TITLE: "main 分支有新的 push 內容！"
           SLACK_MESSAGE: "A new commit has been pushed to ${{ github.ref }}."
-          
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_FIELDS: none
