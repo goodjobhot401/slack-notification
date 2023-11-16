@@ -1,0 +1,20 @@
+name: Notify Slack on Push to Main
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  slackNotification:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Notification to Slack
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_COLOR: "#ff00ff"
+          SLACK_ICON: https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/ghost.png
+          SLACK_MESSAGE: "Post Content :rocket:"
+          SLACK_TITLE: "main 分支有新的 push 內容！"
+          SLACK_USERNAME: "Github Action 小精靈"
+          SLACK_WEBHOOK: { { secrets.SLACK_WEBHOOK } }
