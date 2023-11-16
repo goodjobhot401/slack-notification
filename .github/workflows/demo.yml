@@ -17,4 +17,4 @@ jobs:
           SLACK_MESSAGE: "Post Content :rocket:"
           SLACK_TITLE: "main 分支有新的 push 內容！"
           SLACK_USERNAME: "Github Action 小精靈"
-          SLACK_WEBHOOK: { { secrets.SLACK_WEBHOOK } }
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
