@@ -18,5 +18,5 @@ jobs:
           SLACK_MESSAGE: "Click Here: ${{ github.server_url }}/${{ github.repository}}"
           SLACK_TITLE: "A new commit has been pushed to ${{ github.ref }}"
           SLACK_USERNAME: "Github Action 小精靈"
-          MSG_MINIMAL: event, commit
+          MSG_MINIMAL: ref,event,commit
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
