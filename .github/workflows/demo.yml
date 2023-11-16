@@ -14,7 +14,7 @@ jobs:
 
         env:
           SLACK_COLOR: "good"
-          SLACK_ICON: https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/ghost.png
+          SLACK_ICON_EMOJI::ghost:
           SLACK_TITLE: "A new commit has been pushed into main branch"
           SLACK_USERNAME: "Github Action 小精靈"
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
