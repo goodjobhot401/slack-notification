@@ -15,7 +15,7 @@ jobs:
         env:
           SLACK_COLOR: "good"
           SLACK_ICON_EMOJI: ":ghost:"
-          SLACK_MESSAGE: "<${{ github.server_url }}/${{ github.repository}}|Check Commit Repo>"
+          SLACK_MESSAGE: '<${{ github.server_url }}/${{ github.repository}}|Check Commit Repo>'
           SLACK_TITLE: "New Commit in Main branch"
           SLACK_USERNAME: "Github Action 小精靈"
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
