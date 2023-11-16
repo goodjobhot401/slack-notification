@@ -12,23 +12,21 @@ jobs:
       - name: Send Notification to Slack
         uses: rtCamp/action-slack-notify@v2
         with:
-    # This data can be any valid JSON from a previous step in the GitHub Action
-        payload: |
-          {
-            "blocks": [
-              {
-                "type": "section",
-                "text": {
-                  "type": "mrkdn",
-                  "text": "*GitHub Action Job results: ${{ job.status }}*\n*For more details, follow the link:* ${{ github.server_url }}/${{ github.repository}}/actions/runs/${{ github.run_id}}"
+          payload: |
+            {
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdn",
+                    "text": "*GitHub Action Job results: ${{ job.status }}*\n*For more details, follow the link:* ${{ github.server_url }}/${{ github.repository}}/actions/runs/${{ github.run_id}}"
+                  }
+                },
+                {
+                  "type": "divider"
                 }
-              },
-              {
-                "type": "divider"
-              }
-            ]
-          }
-
+              ]
+            }
         env:
           SLACK_USERNAME: "Github Action 小精靈"
           SLACK_ICON: https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/ghost.png
