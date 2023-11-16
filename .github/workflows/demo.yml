@@ -1,3 +1,5 @@
+name: Github Actions Repo
+
 on:
   push:
     branches:
@@ -13,7 +15,8 @@ jobs:
         env:
           SLACK_COLOR: "good"
           SLACK_ICON: https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/ghost.png
-          SLACK_MESSAGE: <"${{ github.server_url }}/${{ github.repository}}|Click Here">
+          SLACK_MESSAGE: "Click Here: ${{ github.server_url }}/${{ github.repository}}"
           SLACK_TITLE: "A new commit has been pushed to ${{ github.ref }}"
           SLACK_USERNAME: "Github Action 小精靈"
+          MSG_MINIMAL: event, commit
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
