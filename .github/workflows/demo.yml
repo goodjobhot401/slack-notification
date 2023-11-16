@@ -13,10 +13,9 @@ jobs:
         uses: rtCamp/action-slack-notify@v2
 
         env:
-          SLACK_USERNAME: "Github Action 小精靈"
-          SLACK_ICON: https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/ghost.png
           SLACK_COLOR: "good"
-          
-          SLACK_TITLE: "main 分支有新的 push 內容！"
-          SLACK_MESSAGE: "A new commit has been pushed to ${{ github.ref }}. Checkout here: * ${{ github.server_url }}/${{ github.repository}}"
+          SLACK_ICON: https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/ghost.png
+          SLACK_MESSAGE: "Checkout here: ${{ github.server_url }}/${{ github.repository}}"
+          SLACK_TITLE: "A new commit has been pushed to ${{ github.ref }}."
+          SLACK_USERNAME: "Github Action 小精靈"
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
