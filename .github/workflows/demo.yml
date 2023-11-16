@@ -1,4 +1,4 @@
-name: Actions Repo
+name: Action Run
 
 on:
   push:
