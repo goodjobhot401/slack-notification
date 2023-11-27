@@ -15,6 +15,7 @@ on:
 jobs:
   notifiy-push:
     runs-on: ubuntu-latest
+    if: github.event_name == 'push'
     steps:
       - name: Send Notification to Slack
         uses: rtCamp/action-slack-notify@v2
