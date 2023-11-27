@@ -37,7 +37,7 @@ jobs:
         env:
           SLACK_COLOR: "good"
           SLACK_ICON_EMOJI: ":ghost:"
-          SLACK_MESSAGE: '<Pull Request #${{ github.event.pull_request.number }} (“${{ github.event.pull_request.head.ref }}” to “${{ github.event.pull_request.base.ref }}”) has been merged!>'
+          SLACK_MESSAGE: '<${{ github.event.pull_request.html_url }}|PR “${{ github.event.pull_request.head.ref }}” to “${{ github.event.pull_request.base.ref }}” has been merged>'
           SLACK_TITLE: "Pull Request Merged"
           SLACK_USERNAME: "Github Action 小精靈"
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
