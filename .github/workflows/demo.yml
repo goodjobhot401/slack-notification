@@ -1,21 +1,68 @@
-name: Action Run
-
 on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
+  pull_request_review:
+    types: [submitted]
+  pull_request_review_comment:
+    types: [created]
 
 jobs:
-  slackNotification:
+  notifiy-push-main:
     runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - name: Send Notification to Slack
         uses: rtCamp/action-slack-notify@v2
-
         env:
           SLACK_COLOR: "good"
           SLACK_ICON_EMOJI: ":ghost:"
           SLACK_MESSAGE: '<${{ github.server_url }}/${{ github.repository}}|Commit Repo>'
           SLACK_TITLE: "New Commit in Main branch"
+          SLACK_USERNAME: "Github Action 小精靈"
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+  notify-pr-created:
+    if: github.event_name == 'pull_request' && github.event.action == 'opened'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send PR Created Notification to Slack
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_COLOR: "good"
+          SLACK_ICON_EMOJI: ":ghost:"
+          SLACK_MESSAGE: '<${{ github.event.pull_request.html_url }}|“${{ github.event.pull_request.head.ref }}” to “${{ github.event.pull_request.base.ref }}”>'
+          SLACK_TITLE: "New Pull-Request"
+          SLACK_USERNAME: "Github Action 小精靈"
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+  notify-pr-merged:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send PR Merged Notification to Slack
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_COLOR: "good"
+          SLACK_ICON_EMOJI: ":ghost:"
+          SLACK_MESSAGE: 'Pull Request #${{ github.event.pull_request.number }} (“${{ github.event.pull_request.head.ref }}” to “${{ github.event.pull_request.base.ref }}”) has been merged!'
+          SLACK_TITLE: "Pull Request Merged"
+          SLACK_USERNAME: "Github Action 小精靈"
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+  notify-pr-conflict:
+    if: github.event_name == 'pull_request' && github.event.action == 'synchronize' && github.event.pull_request.mergeable_state == 'dirty'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send PR Conflict Notification to Slack
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_COLOR: "danger"
+          SLACK_ICON_EMOJI: ":ghost:"
+          SLACK_MESSAGE: 'Pull Request #${{ github.event.pull_request.number }} (“${{ github.event.pull_request.head.ref }}” to “${{ github.event.pull_request.base.ref }}”) has conflicts and cannot be merged!'
+          SLACK_TITLE: "Pull Request Conflict"
           SLACK_USERNAME: "Github Action 小精靈"
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
