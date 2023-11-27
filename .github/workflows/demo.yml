@@ -1,5 +1,3 @@
-name: Action Run
-
 on:
   push:
     branches:
@@ -13,7 +11,7 @@ on:
     types: [created]
 
 jobs:
-  notifiy-push:
+  notifiy-push-main:
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
@@ -36,7 +34,7 @@ jobs:
         env:
           SLACK_COLOR: "good"
           SLACK_ICON_EMOJI: ":ghost:"
-          SLACK_MESSAGE: '<${{ github.event.pull_request.html_url }}|New Pull Request: #${{ github.event.pull_request.head.ref }} to ${{ github.event.pull_request.base.ref }}>'
+          SLACK_MESSAGE: '<${{ github.event.pull_request.html_url }}|“${{ github.event.pull_request.head.ref }}” to “${{ github.event.pull_request.base.ref }}”>'
           SLACK_TITLE: "New Pull-Request"
           SLACK_USERNAME: "Github Action 小精靈"
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
