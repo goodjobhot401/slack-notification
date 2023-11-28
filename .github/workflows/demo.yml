@@ -25,18 +25,22 @@ jobs:
               "username": "Github Actions 小精靈",
               "icon_emoji": ":ghost:",
               "text": "New Commit in ”${{ steps.extract_branch.outputs.branch }}“",
-              "color": "good",
-              "blocks": [
+              "attachments": [
                 {
-                  "type": "section",
-                  "fields": [
+                  "color": "green",
+                  "blocks": [
                     {
-                      "type": "mrkdwn",
-                      "text": "*Github Actions Result:*\n*${{ job.status }}*"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*New Commit in branch:*\n<${{ github.event.head_commit.url }}|*${{ steps.extract_branch.outputs.branch }}*>"
+                      "type": "section",
+                      "fields": [
+                        {
+                          "type": "mrkdwn",
+                          "text": "*Github Actions Result:*\n*${{ job.status }}*"
+                        },
+                        {
+                          "type": "mrkdwn",
+                          "text": "*New Commit in branch:*\n<${{ github.event.head_commit.url }}|*${{ steps.extract_branch.outputs.branch }}*>"
+                        }
+                      ]
                     }
                   ]
                 }
