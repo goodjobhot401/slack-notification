@@ -27,7 +27,7 @@ jobs:
               "text": "New Commit in ”${{ steps.extract_branch.outputs.branch }}“",
               "attachments": [
                 {
-                  "color": "green",
+                  "color": "#7aff88",
                   "blocks": [
                     {
                       "type": "section",
