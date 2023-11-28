@@ -30,7 +30,7 @@ jobs:
                   "fields": [
                     {
                       "type": "mrkdwn",
-                      "text": "*Result:*\n*${{ job.status }}*"
+                      "text": "*Github Actions Result:*\n*${{ job.status }}*"
                     },
                     {
                       "type": "mrkdwn",
