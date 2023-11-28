@@ -11,19 +11,24 @@ jobs:
   slackNotification:
     runs-on: ubuntu-latest
     steps:
+      - name: Extract branch name
+        id: extract_branch
+        run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
+        env:
+          GITHUB_REF: ${{ github.ref }}
+
       - name: Send Notification to Slack
-        id: slack
         uses: slackapi/slack-github-action@v1.24.0
         with:
           payload: |
             {
-              "text": "GitHub Action build result: ${{ job.status }}\n<${{ github.event.head_commit.url }}|New Commit in ${{ github.ref }}>",
+              "text": "<${{ github.event.head_commit.url }}|New Commit in ${{ steps.extract_branch.outputs.branch }}>",
               "blocks": [
                 {
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "GitHub Action build result: ${{ job.status }}\n<${{ github.event.head_commit.url }}|New Commit in ${{ github.ref }}>"
+                    "text": "GitHub Action build result: ${{ job.status }}\n<${{ github.event.head_commit.url }}|New Commit in ${{ steps.extract_branch.outputs.branch }}>"
                   }
                 }
               ]
