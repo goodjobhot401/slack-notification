@@ -22,15 +22,28 @@ jobs:
         with:
           payload: |
             {
-              "text": "New Commit in ${{ steps.extract_branch.outputs.branch }}",
+              "text": "New Commit in *${{ steps.extract_branch.outputs.branch }}*",
               "color": "good",
               "blocks": [
                 {
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "GitHub Action build result: ”${{ job.status }}“\nNew Commit in <${{ github.event.head_commit.url }}|“${{ steps.extract_branch.outputs.branch }}”>"
+                    "text": "GitHub Action build result: *${{ job.status }}*\nNew Commit in <${{ github.event.head_commit.url }}|*${{ steps.extract_branch.outputs.branch }}*>"
                   }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Event:*\n${{ github.commits[0][author] }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*To:*\n${{ steps.extract_branch.outputs.branch }}"
+                    }
+                  ]
                 }
               ]
             }
