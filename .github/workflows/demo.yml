@@ -20,6 +20,7 @@ jobs:
       - name: Send Notification to Slack
         uses: slackapi/slack-github-action@v1.24.0
         with:
+          channel_id: "D05UZFADWE9,D05UN1PQRN3"
           payload: |
             {
               "text": "New Commit in ”${{ steps.extract_branch.outputs.branch }}“",
