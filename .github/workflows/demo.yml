@@ -22,7 +22,7 @@ jobs:
         with:
           payload: |
             {
-              "text": "New Commit in <${{ github.event.head_commit.url }}|“${{ steps.extract_branch.outputs.branch }}”>",
+              "text": "New Commit in ${{ steps.extract_branch.outputs.branch }}",
               "blocks": [
                 {
                   "type": "section",
