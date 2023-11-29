@@ -82,14 +82,6 @@ jobs:
                   "blocks": [
                     {
                       "type": "section",
-                      "text": 
-                        {
-                          "type": "mrkdwn",
-                          "text": "*New PR submitted by ${{ github.event.pull_request.user.login }}*"
-                        }                    
-                    },
-                    {
-                      "type": "section",
                       "fields": [
                         {
                           "type": "mrkdwn",
