@@ -84,7 +84,7 @@ jobs:
                       "text": 
                         {
                           "type": "mrkdwn",
-                          "text": "New PR in :\n*<${{ github.event.pull_request.html_url }}|Here>*"
+                          "text": "*New PR submitted by ${{ github.event.pull_request.user.login }}*:*<${{ github.event.pull_request.html_url }}|Here>*"
                         }                    
                     },
                     {
@@ -97,47 +97,6 @@ jobs:
                         {
                           "type": "mrkdwn",
                           "text": "*Merge Into:*\n${{ github.event.pull_request.base.ref }}"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "section",
-                      "text": 
-                        {
-                          "type": "mrkdwn",
-                          "text": "-----查看變數-----"
-                        }                    
-                    },
-                    {
-                      "type": "section",
-                      "fields": [
-                        {
-                          "type": "mrkdwn",
-                          "text": "*github.event.pull_request.base.ref:*\n${{ github.event.pull_request.base.ref }}"
-                        },
-                        {
-                          "type": "mrkdwn",
-                          "text": "*github.event.pull_request.mergeable_state:*\n${{ github.event.pull_request.mergeable_state }}"
-                        },
-                        {
-                          "type": "mrkdwn",
-                          "text": "*github.event.pull_request.author_association:*\n${{ github.event.pull_request.author_association }}"
-                        },
-                        {
-                          "type": "mrkdwn",
-                          "text": "*github.event.pull_request.user.login:*\n${{ github.event.pull_request.user.login }}"
-                        },
-                        {
-                          "type": "mrkdwn",
-                          "text": "*github.event.pull_request.title:*\n${{ github.event.pull_request.title }}"
-                        },
-                        {
-                          "type": "mrkdwn",
-                          "text": "*github.event.pull_request.state:*\n${{ github.event.pull_request.state }}"
-                        },
-                        {
-                          "type": "mrkdwn",
-                          "text": "*github.event.pull_request.merged:*\n${{ github.event.pull_request.merged }}"
                         }
                       ]
                     }
