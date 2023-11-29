@@ -38,7 +38,7 @@ jobs:
             {
               "username": "Github Actions 小精靈",
               "icon_emoji": ":ghost:",
-              "text": "New Commit in ”${{ steps.extract_branch.outputs.branch }}“",
+              "text": "New Commit in ${{ steps.extract_branch.outputs.branch }}",
               "attachments": [
                 {
                   "color": "#7aff88",
@@ -75,6 +75,7 @@ jobs:
             {
               "username": "Github Actions 小精靈",
               "icon_emoji": ":ghost:",
+              "text": "🔔 New PR Submitted by ${{ github.event.pull_request.user.login }}: ${{ github.event.pull_request.title }}",
               "attachments": [
                 {
                   "color": "#7aff88",
