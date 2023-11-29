@@ -113,27 +113,7 @@ jobs:
                       "fields": [
                         {
                           "type": "mrkdwn",
-                          "text": "*github.event.pull_request.body:*\n${{ github.event.pull_request.body }}"
-                        },
-                        {
-                          "type": "mrkdwn",
                           "text": "*github.event.pull_request.base:*\n${{ github.event.pull_request.base }}"
-                        },
-                        {
-                          "type": "mrkdwn",
-                          "text": "*github.event.pull_request.body:*\n${{ github.event.pull_request.body }}"
-                        },
-                        {
-                          "type": "mrkdwn",
-                          "text": "*github.event.pull_request.comments:*\n${{ github.event.pull_request.comments }}"
-                        },
-                        {
-                          "type": "mrkdwn",
-                          "text": "*github.event.pull_request.labels:*\n${{ github.event.pull_request.labels }}"
-                        },
-                        {
-                          "type": "mrkdwn",
-                          "text": "*github.event.pull_request.mergeable:*\n${{ github.event.pull_request.mergeable }}"
                         },
                         {
                           "type": "mrkdwn",
@@ -154,14 +134,6 @@ jobs:
                         {
                           "type": "mrkdwn",
                           "text": "*github.event.pull_request.state:*\n${{ github.event.pull_request.state }}"
-                        },
-                        {
-                          "type": "mrkdwn",
-                          "text": "*github.event.pull_request.merged_by:*\n${{ github.event.pull_request.merged_by }}"
-                        },
-                        {
-                          "type": "mrkdwn",
-                          "text": "*github.event.pull_request.merged_at:*\n${{ github.event.pull_request.merged_at }}"
                         },
                         {
                           "type": "mrkdwn",
