@@ -131,7 +131,7 @@ jobs:
                   "blocks": [
                     {
                       "type": "section",
-                      "blocks": [
+                      "fields": [
                         {
                           "type": "mrkdwn",
                           "text": "*PR Status: ”${{ github.event.action }}“*"
