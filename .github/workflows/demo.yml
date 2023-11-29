@@ -6,9 +6,15 @@ on:
       - main
       - dev
       - official/push
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - closed
 
 jobs:
-  slackNotification:
+  notify-push:
     runs-on: ubuntu-latest
     steps:
       - name: Extract branch name
@@ -49,3 +55,44 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+
+  notify-pr-created:
+    if: github.event_name == 'pull_request' && github.event.action == 'opened'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Notification to Slack
+        uses: slackapi/slack-github-action@v1.24.0
+        with: 
+          payload: |
+            {
+              "username": "Github Actions 小精靈",
+              "icon_emoji": ":ghost:",
+              "text": "New PR in ”${{ steps.extract_branch.outputs.branch }}“",
+              "attachments": [
+                {
+                  "color": "#7aff88",
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": "You have a new PR:\n*<${{ github.event.pull_request.html_url }}|Click Here>*"
+                      }
+                    },
+                    {
+                      "type": "section",
+                      "fields": [
+                        {
+                          "type": "mrkdwn",
+                          "text": "*From:*\n${{ github.event.pull_request.head.ref }}"
+                        },
+                        {
+                          "type": "mrkdwn",
+                          "text": "*To:*\n${{ github.event.pull_request.base.ref }}"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
