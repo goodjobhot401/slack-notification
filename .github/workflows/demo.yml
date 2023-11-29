@@ -17,6 +17,8 @@ on:
       - closed
       - reopened
       - synchronize
+      - converted_to_draft
+      - ready_for_review
   pull_request_review:
     types: [submitted]
   pull_request_review_comment:
@@ -112,7 +114,7 @@ jobs:
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
   
   notify-pr-updated:
-    if: github.event_name == 'pull_request' && (github.event.action == 'reopened' || github.event.action == 'synchronize')
+    if: github.event_name == 'pull_request' && (github.event.action == 'reopened' || github.event.action == 'synchronize' || github.event.action == 'converted_to_draft' || github.event.action == 'ready_for_review')
     runs-on: ubuntu-latest
     steps:
       - name: Send Notification to Slack
@@ -127,6 +129,15 @@ jobs:
                 {
                   "color": "#7aff88",
                   "blocks": [
+                    {
+                      "type": "section",
+                      "blocks": [
+                        {
+                          "type": "mrkdwn",
+                          "text": "*PR Status: ”${{ github.event.action }}“*"
+                        }
+                      ]
+                    },
                     {
                       "type": "section",
                       "fields": [
