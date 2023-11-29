@@ -113,7 +113,7 @@ jobs:
                       "fields": [
                         {
                           "type": "mrkdwn",
-                          "text": "*github.event.pull_request.base:*\n${{ github.event.pull_request.base }}"
+                          "text": "*github.event.pull_request.base.ref:*\n${{ github.event.pull_request.base.ref }}"
                         },
                         {
                           "type": "mrkdwn",
@@ -125,7 +125,7 @@ jobs:
                         },
                         {
                           "type": "mrkdwn",
-                          "text": "*github.event.pull_request.user:*\n${{ github.event.pull_request.user }}"
+                          "text": "*github.event.pull_request.user.login:*\n${{ github.event.pull_request.user.login }}"
                         },
                         {
                           "type": "mrkdwn",
@@ -140,7 +140,7 @@ jobs:
                           "text": "*github.event.pull_request.merged:*\n${{ github.event.pull_request.merged }}"
                         }
                       ]
-                    },
+                    }
                   ]
                 }
               ]
