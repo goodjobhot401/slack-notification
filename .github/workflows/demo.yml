@@ -15,6 +15,8 @@ on:
     types:
       - opened
       - closed
+      - reopened
+      - synchronize
   pull_request_review:
     types: [submitted]
   pull_request_review_comment:
@@ -65,7 +67,7 @@ jobs:
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
 
   notify-pr-created:
-    if: github.event_name == 'pull_request' && github.event.action == 'opened'
+    if: github.event_name == 'pull_request' && github.event.action == 'opened' 
     runs-on: ubuntu-latest
     steps:
       - name: Send Notification to Slack
@@ -76,6 +78,51 @@ jobs:
               "username": "Github Actions 小精靈",
               "icon_emoji": ":ghost:",
               "text": "🔔 New PR Submitted by ${{ github.event.pull_request.user.login }} 🔔",
+              "attachments": [
+                {
+                  "color": "#7aff88",
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "fields": [
+                        {
+                          "type": "mrkdwn",
+                          "text": "*PR Link:*\n<${{ github.event.pull_request.html_url }}>"
+                        },
+                        {
+                          "type": "mrkdwn",
+                          "text": "*PR Title:*\n${{ github.event.pull_request.title }}"
+                        },
+                        {
+                          "type": "mrkdwn",
+                          "text": "*From Branch:*\n${{ github.event.pull_request.head.ref }}"
+                        },
+                        {
+                          "type": "mrkdwn",
+                          "text": "*Merge Into:*\n${{ github.event.pull_request.base.ref }}"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+  
+  notify-pr-updated:
+    if: github.event_name == 'pull_request' && (github.event.action == 'reopened' || github.event.action == 'synchronize')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Notification to Slack
+        uses: slackapi/slack-github-action@v1.24.0
+        with: 
+          payload: |
+            {
+              "username": "Github Actions 小精靈",
+              "icon_emoji": ":ghost:",
+              "text": "🔔 PR Updated by ${{ github.event.pull_request.user.login }} 🔔",
               "attachments": [
                 {
                   "color": "#7aff88",
