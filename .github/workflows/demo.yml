@@ -75,31 +75,100 @@ jobs:
             {
               "username": "Github Actions 小精靈",
               "icon_emoji": ":ghost:",
-              "text": "New PR in ”${{ steps.extract_branch.outputs.branch }}“",
               "attachments": [
                 {
                   "color": "#7aff88",
                   "blocks": [
                     {
                       "type": "section",
-                      "text": {
-                        "type": "mrkdwn",
-                        "text": "You have a new PR:\n*<${{ github.event.pull_request.html_url }}|Click Here>*"
-                      }
+                      "text": 
+                        {
+                          "type": "mrkdwn",
+                          "text": "New PR in :\n*<${{ github.event.pull_request.html_url }}|Here>*"
+                        }                    
                     },
                     {
                       "type": "section",
                       "fields": [
                         {
                           "type": "mrkdwn",
-                          "text": "*From:*\n${{ github.event.pull_request.head.ref }}"
+                          "text": "*From Branch:*\n${{ github.event.pull_request.head.ref }}"
                         },
                         {
                           "type": "mrkdwn",
-                          "text": "*To:*\n${{ github.event.pull_request.base.ref }}"
+                          "text": "*Merge Into:*\n${{ github.event.pull_request.base.ref }}"
                         }
                       ]
-                    }
+                    },
+                    {
+                      "type": "section",
+                      "text": 
+                        {
+                          "type": "mrkdwn",
+                          "text": "-----查看變數-----"
+                        }                    
+                    },
+                    {
+                      "type": "section",
+                      "fields": [
+                        {
+                          "type": "mrkdwn",
+                          "text": "*github.event.pull_request.body:*\n${{ github.event.pull_request.body }}"
+                        },
+                        {
+                          "type": "mrkdwn",
+                          "text": "*github.event.pull_request.base:*\n${{ github.event.pull_request.base }}"
+                        },
+                        {
+                          "type": "mrkdwn",
+                          "text": "*github.event.pull_request.body:*\n${{ github.event.pull_request.body }}"
+                        },
+                        {
+                          "type": "mrkdwn",
+                          "text": "*github.event.pull_request.comments:*\n${{ github.event.pull_request.comments }}"
+                        },
+                        {
+                          "type": "mrkdwn",
+                          "text": "*github.event.pull_request.labels:*\n${{ github.event.pull_request.labels }}"
+                        },
+                        {
+                          "type": "mrkdwn",
+                          "text": "*github.event.pull_request.mergeable:*\n${{ github.event.pull_request.mergeable }}"
+                        },
+                        {
+                          "type": "mrkdwn",
+                          "text": "*github.event.pull_request.mergeable_state:*\n${{ github.event.pull_request.mergeable_state }}"
+                        },
+                        {
+                          "type": "mrkdwn",
+                          "text": "*github.event.pull_request.author_association:*\n${{ github.event.pull_request.author_association }}"
+                        },
+                        {
+                          "type": "mrkdwn",
+                          "text": "*github.event.pull_request.user:*\n${{ github.event.pull_request.user }}"
+                        },
+                        {
+                          "type": "mrkdwn",
+                          "text": "*github.event.pull_request.title:*\n${{ github.event.pull_request.title }}"
+                        },
+                        {
+                          "type": "mrkdwn",
+                          "text": "*github.event.pull_request.state:*\n${{ github.event.pull_request.state }}"
+                        },
+                        {
+                          "type": "mrkdwn",
+                          "text": "*github.event.pull_request.merged_by:*\n${{ github.event.pull_request.merged_by }}"
+                        },
+                        {
+                          "type": "mrkdwn",
+                          "text": "*github.event.pull_request.merged_at:*\n${{ github.event.pull_request.merged_at }}"
+                        },
+                        {
+                          "type": "mrkdwn",
+                          "text": "*github.event.pull_request.merged:*\n${{ github.event.pull_request.merged }}"
+                        }
+                      ]
+                    },
                   ]
                 }
               ]
