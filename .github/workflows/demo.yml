@@ -22,6 +22,7 @@ on:
 
 jobs:
   notify-push:
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - name: Extract branch name
@@ -103,3 +104,6 @@ jobs:
                 }
               ]
             }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
