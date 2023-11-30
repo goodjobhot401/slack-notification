@@ -74,25 +74,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check for Merge Conflicts
-        if: github.event_name == 'pull_request'
+        id: check_conflicts
         run: |
-          if [[ "${{ github.event.pull_request.mergeable }}" == "false" ]]
-          then
-            echo "Pull Request has conflicts and is not mergeable."
-          elif [[ "${{ github.event.pull_request.mergeable }}" == "true" ]]
-          then
-            echo "Pull Request is mergeable."
-          else
-            echo "Pull Request mergeable status is undetermined."
-          fi
+          echo "MERGEABLE=${{ github.event.pull_request.mergeable }}" >> $GITHUB_ENV
+
+      - name: Set Slack Message for Mergeable PR
+        if: env.MERGEABLE == 'true'
+        run: echo "SLACK_MESSAGE=Pull Request is mergeable." >> $GITHUB_ENV
+
+      - name: Set Slack Message for PR with Conflicts
+        if: env.MERGEABLE == 'false'
+        run: echo "SLACK_MESSAGE=Pull Request has conflicts and is not mergeable." >> $GITHUB_ENV
+
       - name: Send Notification to Slack
+        if: env.MERGEABLE != ''
         uses: slackapi/slack-github-action@v1.24.0
         with: 
           payload: |
             {
               "username": "Github Actions 小精靈",
               "icon_emoji": ":ghost:",
-              "text": "🔔 New PR Submitted by ${{ github.event.pull_request.user.login }} 🔔",
+              "text": "${{ env.SLACK_MESSAGE }}",
               "attachments": [
                 {
                   "color": "#7aff88",
