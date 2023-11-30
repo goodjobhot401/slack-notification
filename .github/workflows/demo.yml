@@ -1,12 +1,12 @@
 name: Action Run
 
 on:
-  # push:
-  #   branches:
-  #     - main
-  #     - dev
-  #     - official/push
-  pull_request_target:
+  push:
+    branches:
+      - main
+      - dev
+      - official/push
+  pull_request:
     branches:
       - main
       - dev
@@ -15,15 +15,15 @@ on:
       - official/merge
     types:
       - opened
-      # - closed
-      # - reopened
-      # - synchronize
-      # - converted_to_draft
-      # - ready_for_review
-  # pull_request_review:
-  #   types: [submitted]
-  # pull_request_review_comment:
-  #   types: [created]
+      - closed
+      - reopened
+      - synchronize
+      - converted_to_draft
+      - ready_for_review
+  pull_request_review:
+    types: [submitted]
+  pull_request_review_comment:
+    types: [created]
 
 jobs:
   notify-push:
@@ -69,8 +69,19 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
 
+  detect-unresolved-conflicts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: List files with merge conflict markers
+        run: git --no-pager grep "<<<<<<<" ":(exclude).github/" || true
+      - name: Fail or succeed job if any files with merge conflict markers have been checked in
+        # Find lines containing "<<<<<<<", then count the number of lines.
+        # 0 matching lines results in exit code 0, i.e. success.
+        run: exit $(git grep "<<<<<<<" ":(exclude).github/" | wc --lines)
+
   notify-pr-created:
-    if: github.event_name == 'pull_request_target' && github.event.action == 'opened' 
+    if: github.event_name == 'pull_request' && github.event.action == 'opened' 
     runs-on: ubuntu-latest
     steps:
       - name: Delay for mergeability check
@@ -85,7 +96,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           pr_data=$(curl -H "Authorization: token $GITHUB_TOKEN" -H "Accept: application/vnd.github.v3+json" \
-                  "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request_target.number }}")
+                  "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}")
           mergeable=$(echo "$pr_data" | jq -r .mergeable)
           echo "MERGEABLE=$mergeable" >> $GITHUB_ENV
           echo "Mergeable status of the PR is $mergeable"
@@ -98,7 +109,7 @@ jobs:
             {
               "username": "Github Actions 小精靈",
               "icon_emoji": ":ghost:",
-              "text": "Conflict PR Submitted by ${{ github.event.pull_request_target.user.login }}",
+              "text": "Conflict PR Submitted by ${{ github.event.pull_request.user.login }}",
               "attachments": [
                 {
                   "color": "#7aff88",
@@ -108,11 +119,11 @@ jobs:
                       "fields": [
                         {
                           "type": "mrkdwn",
-                          "text": "*PR Link:*\n<${{ github.event.pull_request_target.html_url }}>"
+                          "text": "*PR Link:*\n<${{ github.event.pull_request.html_url }}>"
                         },
                         {
                           "type": "mrkdwn",
-                          "text": "*PR Title:*\n${{ github.event.pull_request_target.title }}"
+                          "text": "*PR Title:*\n${{ github.event.pull_request.title }}"
                         }
                       ]
                     },
@@ -121,11 +132,11 @@ jobs:
                       "fields": [
                         {
                           "type": "mrkdwn",
-                          "text": "*From Branch:*\n${{ github.event.pull_request_target.head.ref }}"
+                          "text": "*From Branch:*\n${{ github.event.pull_request.head.ref }}"
                         },
                         {
                           "type": "mrkdwn",
-                          "text": "*Merge Into:*\n${{ github.event.pull_request_target.base.ref }}"
+                          "text": "*Merge Into:*\n${{ github.event.pull_request.base.ref }}"
                         }
                       ]
                     }
