@@ -6,7 +6,7 @@ on:
       - main
       - dev
       - official/push
-  pull_request:
+  pull_request_target:
     branches:
       - main
       - dev
@@ -70,7 +70,7 @@ jobs:
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
 
   notify-pr-created:
-    if: github.event_name == 'pull_request' && github.event.action == 'opened' 
+    if: github.event_name == 'pull_request_target' && github.event.action == 'opened' 
     runs-on: ubuntu-latest
     steps:
       - name: Delay for mergeability check
@@ -185,7 +185,7 @@ jobs:
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
   
   notify-pr-updated:
-    if: github.event_name == 'pull_request' && (github.event.action == 'reopened' || github.event.action == 'synchronize' || github.event.action == 'converted_to_draft' || github.event.action == 'ready_for_review')
+    if: github.event_name == 'pull_request_target' && (github.event.action == 'reopened' || github.event.action == 'synchronize' || github.event.action == 'converted_to_draft' || github.event.action == 'ready_for_review')
     runs-on: ubuntu-latest
     steps:
       - name: Send Notification to Slack
@@ -244,7 +244,7 @@ jobs:
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
 
   notify-pr-merged:
-    if: github.event_name == 'pull_request' && github.event.pull_request.merged == true
+    if: github.event_name == 'pull_request_target' && github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Send PR Merged Notification to Slack
