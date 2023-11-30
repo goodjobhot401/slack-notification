@@ -189,6 +189,14 @@ jobs:
                       "fields": [
                         {
                           "type": "mrkdwn",
+                          "text": "*PR Author:*\n<${{ github.event.pull_request.user.login }}>"
+                        },
+                        {
+                          "type": "mrkdwn",
+                          "text": "*PR Number:*\nNo.${{ github.event.pull_request.number }}"
+                        },
+                        {
+                          "type": "mrkdwn",
                           "text": "*PR Link:*\n<${{ github.event.pull_request.html_url }}>"
                         },
                         {
