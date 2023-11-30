@@ -73,14 +73,79 @@ jobs:
     if: github.event_name == 'pull_request' && github.event.action == 'opened' 
     runs-on: ubuntu-latest
     steps:
-      - name: Send Notification to Slack
+      - name: Delay for mergeability check
+        run: sleep 10 
+
+      - name: Install jq
+        run: sudo apt-get install jq
+
+      - name: Get PR mergeable status from GitHub API
+        id: get_mergeable
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          pr_data=$(curl -H "Authorization: token $GITHUB_TOKEN" -H "Accept: application/vnd.github.v3+json" \
+                  "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}")
+          mergeable=$(echo "$pr_data" | jq -r .mergeable)
+          echo "MERGEABLE=$mergeable" >> $GITHUB_ENV
+          echo "Mergeable status of the PR is $mergeable"
+
+      # - name: Send Notification to Slack, if PR has conflict
+      #   if: env.MERGEABLE == 'false'
+      #   uses: slackapi/slack-github-action@v1.24.0
+      #   with: 
+      #     payload: |
+      #       {
+      #         "username": "Github Actions 小精靈",
+      #         "icon_emoji": ":ghost:",
+      #         "text": "Conflict PR Submitted by ${{ github.event.pull_request.user.login }}",
+      #         "attachments": [
+      #           {
+      #             "color": "#7aff88",
+      #             "blocks": [
+      #               {
+      #                 "type": "section",
+      #                 "fields": [
+      #                   {
+      #                     "type": "mrkdwn",
+      #                     "text": "*PR Link:*\n<${{ github.event.pull_request.html_url }}>"
+      #                   },
+      #                   {
+      #                     "type": "mrkdwn",
+      #                     "text": "*PR Title:*\n${{ github.event.pull_request.title }}"
+      #                   }
+      #                 ]
+      #               },
+      #               {
+      #                 "type": "section",
+      #                 "fields": [
+      #                   {
+      #                     "type": "mrkdwn",
+      #                     "text": "*From Branch:*\n${{ github.event.pull_request.head.ref }}"
+      #                   },
+      #                   {
+      #                     "type": "mrkdwn",
+      #                     "text": "*Merge Into:*\n${{ github.event.pull_request.base.ref }}"
+      #                   }
+      #                 ]
+      #               }
+      #             ]
+      #           }
+      #         ]
+      #       }
+      #   env:
+      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+      #     SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+      
+      - name: Send Notification to Slack, if PR has no conflict
+        if: env.MERGEABLE == 'true'
         uses: slackapi/slack-github-action@v1.24.0
         with: 
           payload: |
             {
               "username": "Github Actions 小精靈",
               "icon_emoji": ":ghost:",
-              "text": "🔔 New PR Submitted by ${{ github.event.pull_request.user.login }} 🔔",
+              "text": "🔔 New PR Submitted by ${{ github.event.pull_request.user.login }} 🔔 ",
               "attachments": [
                 {
                   "color": "#7aff88",
@@ -169,7 +234,7 @@ jobs:
                           "text": "*Merge Into:*\n${{ github.event.pull_request.base.ref }}"
                         }
                       ]
-                    },
+                    }
                   ]
                 }
               ]
