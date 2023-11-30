@@ -231,7 +231,7 @@ jobs:
                           "text": "*Merge Into:*\n${{ github.event.pull_request.base.ref }}"
                         }
                       ]
-                    },
+                    }
                   ]
                 }
               ]
