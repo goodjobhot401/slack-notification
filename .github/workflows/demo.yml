@@ -73,6 +73,15 @@ jobs:
     if: github.event_name == 'pull_request' && github.event.action == 'opened' 
     runs-on: ubuntu-latest
     steps:
+      - name: Check for Merge Conflicts
+        if: github.event_name == 'pull_request'
+        run: |
+          if [[ "${{ github.event.pull_request.mergeable }}" != "true" ]]
+          then
+            echo "Pull Request has conflicts or is not mergeable."
+          else
+            echo "Pull Request is mergeable."
+          fi
       - name: Send Notification to Slack
         uses: slackapi/slack-github-action@v1.24.0
         with: 
