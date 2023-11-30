@@ -73,6 +73,9 @@ jobs:
     if: github.event_name == 'pull_request' && github.event.action == 'opened' 
     runs-on: ubuntu-latest
     steps:
+      - name: Delay for mergeability check
+        run: sleep 10 
+        
       - name: Check for Merge Conflicts
         if: github.event_name == 'pull_request'
         run: |
@@ -83,9 +86,6 @@ jobs:
           else
             echo "Mergeability of Pull Request is undetermined."
           fi 
-      
-      - name: Delay for mergeability check
-        run: sleep 10 
 
       - name: Send Notification to Slack, if PR has conflict
         if: github.event.pull_request.mergeable == false
@@ -93,9 +93,9 @@ jobs:
         with: 
           payload: |
             {
-              "username": "Github Actions 小精靈"
+              "username": "Github Actions 小精靈",
               "icon_emoji": ":ghost:",
-              "text": " Conflict PR Submitted by ${{ github.event.pull_request.user.login }} 🔔 ",
+              "text": "Conflict PR Submitted by ${{ github.event.pull_request.user.login }}",
               "attachments": [
                 {
                   "color": "#7aff88",
