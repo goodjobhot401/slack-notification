@@ -12,6 +12,7 @@ on:
       - dev
       - official/push
       - official/new-pr
+      - official/merge
     types:
       - opened
       - closed
