@@ -12,6 +12,7 @@ on:
       - dev
       - official/push
       - official/new-pr
+      - official/merge
     types:
       - opened
       - closed
@@ -138,6 +139,51 @@ jobs:
                         }
                       ]
                     },
+                    {
+                      "type": "section",
+                      "fields": [
+                        {
+                          "type": "mrkdwn",
+                          "text": "*PR Link:*\n<${{ github.event.pull_request.html_url }}>"
+                        },
+                        {
+                          "type": "mrkdwn",
+                          "text": "*PR Title:*\n${{ github.event.pull_request.title }}"
+                        },
+                        {
+                          "type": "mrkdwn",
+                          "text": "*From Branch:*\n${{ github.event.pull_request.head.ref }}"
+                        },
+                        {
+                          "type": "mrkdwn",
+                          "text": "*Merge Into:*\n${{ github.event.pull_request.base.ref }}"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+
+  notify-pr-merged:
+    if: github.event_name == 'pull_request' && github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send PR Merged Notification to Slack
+        uses: slackapi/slack-github-action@v1.24.0
+        with: 
+          payload: |
+            {
+              "username": "Github Actions 小精靈",
+              "icon_emoji": ":ghost:",
+              "text": "🔔 PR has been merged! 🔔",
+              "attachments": [
+                {
+                  "color": "#7aff88",
+                  "blocks": [
                     {
                       "type": "section",
                       "fields": [
