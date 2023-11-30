@@ -76,11 +76,14 @@ jobs:
       - name: Check for Merge Conflicts
         if: github.event_name == 'pull_request'
         run: |
-          if [[ "${{ github.event.pull_request.mergeable }}" != "true" ]]
+          if [[ "${{ github.event.pull_request.mergeable }}" == "false" ]]
           then
-            echo "Pull Request has conflicts or is not mergeable."
-          else
+            echo "Pull Request has conflicts and is not mergeable."
+          elif [[ "${{ github.event.pull_request.mergeable }}" == "true" ]]
+          then
             echo "Pull Request is mergeable."
+          else
+            echo "Pull Request mergeable status is undetermined."
           fi
       - name: Send Notification to Slack
         uses: slackapi/slack-github-action@v1.24.0
